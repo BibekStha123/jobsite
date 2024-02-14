@@ -12,9 +12,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+use App\Models\Listing;
 
 Route::get('/', function () {
     return view('listings', [
-        'lists' => 'lastest jobs in here'
+        'heading' => 'lastest listings',
+        'listings' => Listing::all()
+    ]);
+});
+
+Route::get('/listing/{listing}', function (Listing $listing) {
+    return view('listing', [
+        'listing' => $listing
     ]);
 });
