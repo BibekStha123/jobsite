@@ -13,7 +13,7 @@ class ListingController extends Controller
     public function index(Request $request)
     {
         return view('listings.index', [
-            'listings' => Listing::latest()->filter($request->tag, $request->search)->get()
+            'listings' => Listing::latest()->filter($request->tag, $request->search)->paginate(4)
         ]);
     }
 
@@ -40,9 +40,14 @@ class ListingController extends Controller
             'tags' => 'required',
             'description' => 'required'
         ]);
+        $file = '';
+        if($request->hasFile('logo')) {
+            $file = $request->file('logo')->store('logos', 'public');
+        }
 
         Listing::create([
             'title' => $request->title,
+            'logo' => $file,
             'company' => $request->company,
             'location' => $request->location,
             'website' => $request->website,
@@ -52,5 +57,48 @@ class ListingController extends Controller
         ]);
 
         return redirect('/')->with('message', 'Listing Created Successfully!!');
+    }
+
+    public function edit(Listing $listing)
+    {
+        return view('listings.edit',[
+            'listing' => $listing
+        ]);
+    }
+
+    public function update(Request $request, Listing $listing) {
+        $request->validate([
+            'title' => 'required',
+            'company' => 'required',
+            'location' => 'required',
+            'website' => 'required',
+            'email' => 'required|email',
+            'tags' => 'required',
+            'description' => 'required'
+        ]);
+        $file = '';
+        if($request->hasFile('logo')) {
+            $file = $request->file('logo')->store('logos', 'public');
+        }
+
+        $listing->update([
+            'title' => $request->title,
+            'logo' => $file,
+            'company' => $request->company,
+            'location' => $request->location,
+            'website' => $request->website,
+            'email' => $request->email,
+            'tags' => $request->tags,
+            'description' => $request->description
+        ]);
+
+        return redirect('/listing/'.$listing->id)->with('message', 'Listing Updated Successfully!!');
+    }
+    
+    public function delete(Listing $listing) 
+    {
+        $listing->delete();
+
+        return redirect('/')->with('message', 'Lisiting Deleted Successfully');
     }
 }
