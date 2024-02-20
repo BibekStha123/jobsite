@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AdminController;
 use App\Models\Listing;
 
 /*
@@ -37,3 +38,6 @@ Route::middleware('auth')->controller(ListingController::class)->prefix('/listin
     Route::get('/manage', 'manage');
 });
 Route::get('/listing/{listing}', [ListingController::class, 'show']);
+
+// admin routes
+Route::get('/admin', [AdminController::class, 'index']);
