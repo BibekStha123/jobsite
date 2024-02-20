@@ -41,7 +41,7 @@ class ListingController extends Controller
             'description' => 'required'
         ]);
         $file = '';
-        if($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             $file = $request->file('logo')->store('logos', 'public');
         }
 
@@ -62,12 +62,21 @@ class ListingController extends Controller
 
     public function edit(Listing $listing)
     {
-        return view('listings.edit',[
+        // abort unauthorized access
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Access');
+        }
+        return view('listings.edit', [
             'listing' => $listing
         ]);
     }
 
-    public function update(Request $request, Listing $listing) {
+    public function update(Request $request, Listing $listing)
+    {
+        // abort unauthorized access
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Access');
+        }
         $request->validate([
             'title' => 'required',
             'company' => 'required',
@@ -78,7 +87,7 @@ class ListingController extends Controller
             'description' => 'required'
         ]);
         $file = '';
-        if($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             $file = $request->file('logo')->store('logos', 'public');
         }
 
@@ -93,13 +102,25 @@ class ListingController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect('/listing/'.$listing->id)->with('message', 'Listing Updated Successfully!!');
+        return redirect('/listing/' . $listing->id)->with('message', 'Listing Updated Successfully!!');
     }
-    
-    public function delete(Listing $listing) 
+
+    public function delete(Listing $listing)
     {
+        // abort unauthorized access
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Access');
+        }
+
         $listing->delete();
 
         return redirect('/')->with('message', 'Lisiting Deleted Successfully');
+    }
+
+    public function manage()
+    {
+        return view('listings.manage', [
+            'listings' => auth()->user()->listings->all()
+        ]);
     }
 }

@@ -34,5 +34,6 @@ Route::middleware('auth')->controller(ListingController::class)->prefix('/listin
     Route::get('/{listing}/edit', 'edit');
     Route::put('/{listing}', 'update');
     Route::delete('/{listing}', 'delete');
+    Route::get('/manage', 'manage');
 });
 Route::get('/listing/{listing}', [ListingController::class, 'show']);
