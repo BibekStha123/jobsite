@@ -47,6 +47,7 @@ class ListingController extends Controller
 
         Listing::create([
             'title' => $request->title,
+            'user_id' => auth()->id(),
             'logo' => $file,
             'company' => $request->company,
             'location' => $request->location,

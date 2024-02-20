@@ -16,15 +16,23 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
 
+// Users
+Route::post('/users', [UserController::class, 'createUser']);
+Route::post('/users/login', [UserController::class, 'authenticateUser']);
+Route::post('/logout', [UserController::class, 'logout']);
+// guest
+Route::middleware('guest')->group(function() {
+    Route::get('/register', [UserController::class, 'register']);
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+});
+
 // Listings 
 Route::get('/', [ListingController::class, 'index']);
-Route::get('/listing/create', [ListingController::class, 'create']);
-Route::post('/listing', [ListingController::class, 'store']);
-Route::get('/listing/{listing}/edit', [ListingController::class, 'edit']);
-Route::put('/listing/{listing}', [ListingController::class, 'update']);
-Route::delete('/listing/{listing}', [ListingController::class, 'delete']);
+Route::middleware('auth')->controller(ListingController::class)->prefix('/listing')->group(function () {
+    Route::get('/create', 'create');
+    Route::post('',  'store');
+    Route::get('/{listing}/edit', 'edit');
+    Route::put('/{listing}', 'update');
+    Route::delete('/{listing}', 'delete');
+});
 Route::get('/listing/{listing}', [ListingController::class, 'show']);
-// Users
-Route::get('/register', [UserController::class, 'register']);
-Route::post('/users', [UserController::class, 'createUser']);
-Route::post('/logout', [UserController::class, 'logout']);
