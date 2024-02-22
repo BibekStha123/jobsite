@@ -40,4 +40,6 @@ Route::middleware('auth')->controller(ListingController::class)->prefix('/listin
 Route::get('/listing/{listing}', [ListingController::class, 'show']);
 
 // admin routes
-Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin/login', [AdminController::class, 'login']);
+Route::post('/admin/authenticate', [AdminController::class, 'authenticate']);
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
