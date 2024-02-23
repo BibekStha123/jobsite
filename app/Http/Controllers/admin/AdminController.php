@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +15,6 @@ class AdminController extends Controller
     {
         return view('admin.login');
     }
-    
-    public function dashboard()
-    {
-        return view('admin.index');
-    }
 
     public function authenticate(Request $request)
     {
@@ -26,12 +23,20 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
 
-        if(auth()->attempt($user) && Auth::user()->is_admin) {
+        if (auth()->attempt($user) && Auth::user()->is_admin) {
             $request->session()->regenerate();
 
             return redirect('/admin/dashboard')->with('message', 'Logged in successfully!!');
         }
 
         return back()->withErrors(['password' => 'Invalid Credentials'])->onlyInput('password');
+    }
+
+    public function dashboard()
+    {
+        return view('admin.dashboard',[
+            'usersCount' => User::where('is_admin', false)->get()->count(),
+            'listingsCount' => Listing::count()
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\BladeComponentServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -168,6 +169,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        BladeComponentServiceProvider::class
     ])->toArray(),
 
     /*

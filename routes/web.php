@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Models\Listing;
 
 /*
@@ -42,4 +43,10 @@ Route::get('/listing/{listing}', [ListingController::class, 'show']);
 // admin routes
 Route::get('/admin/login', [AdminController::class, 'login']);
 Route::post('/admin/authenticate', [AdminController::class, 'authenticate']);
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+Route::middleware('admin')->get('/admin/dashboard', [AdminController::class, 'dashboard']);
+
+Route::middleware('admin')->group(function(){
+    Route::controller(AdminUserController::class)->prefix('/users')->group(function () {
+        Route::get('/', 'index');
+    });
+});
