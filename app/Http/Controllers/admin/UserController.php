@@ -15,4 +15,26 @@ class UserController extends Controller
             'users' => User::where('is_admin', false)->orderBy('name', 'asc')->paginate(10)
         ]);
     }
+
+    public function edit(User $user)
+    {
+        return view('admin.user.edit', [
+            'user' => $user
+        ]);
+    }
+
+    public function update(User $user, Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required'
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
+
+        return redirect('/users')->with('message', 'User Updated Successfully!!');
+    }
 }

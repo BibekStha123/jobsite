@@ -45,8 +45,10 @@ Route::get('/admin/login', [AdminController::class, 'login']);
 Route::post('/admin/authenticate', [AdminController::class, 'authenticate']);
 Route::middleware('admin')->get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
-Route::middleware('admin')->group(function(){
-    Route::controller(AdminUserController::class)->prefix('/users')->group(function () {
+Route::middleware('admin')->controller(AdminUserController::class)->group(function(){
+    Route::prefix('/users')->group(function () {
         Route::get('/', 'index');
+        Route::get('/{user}/edit', 'edit');
     });
+    Route::post('/user/{user}', 'update');
 });

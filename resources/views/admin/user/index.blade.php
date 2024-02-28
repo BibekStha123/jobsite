@@ -47,9 +47,14 @@
                                             <tbody>
                                                 @foreach ($users as $user)
                                                     <tr>
-                                                        <td class="dtr-control sorting_1" tabindex="0">{{$user->name}}</td>
+                                                        <td class="dtr-control sorting_1" tabindex="0">
+                                                            <a href="/users/{{ $user->id }}/edit">{{ $user->name }}
+                                                            </a>
+                                                        </td>
+                                                        </a>
                                                         <td>{{ $user->email }}</td>
-                                                        <td>{{empty($user->listings) ? 0 : count($user->listings)}}</td>
+                                                        <td>{{ empty($user->listings) ? 0 : count($user->listings) }}
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -65,10 +70,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-5">
-                                        <div class="dataTables_info" id="example2_info" role="status"
-                                            aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                                        {{ $users->links() }}
                                     </div>
-                                    <div class="col-sm-12 col-md-7">
+                                    {{-- <div class="col-sm-12 col-md-7">
                                         <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                                             <ul class="pagination">
                                                 <li class="paginate_button page-item previous disabled"
@@ -98,7 +102,7 @@
                                                         tabindex="0" class="page-link">Next</a></li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
