@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\ListingController as AdminListingController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Models\Listing;
 
@@ -50,5 +51,7 @@ Route::middleware('admin')->controller(AdminUserController::class)->group(functi
         Route::get('/', 'index');
         Route::get('/{user}/edit', 'edit');
     });
+    Route::post('/user/{user}/delete', 'delete');
     Route::post('/user/{user}', 'update');
 });
+Route::get('/listings', [AdminListingController::class, 'index']);

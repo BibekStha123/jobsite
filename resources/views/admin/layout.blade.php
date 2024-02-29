@@ -91,7 +91,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
+                            <a href="/listings" class="nav-link">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>
                                     Listings

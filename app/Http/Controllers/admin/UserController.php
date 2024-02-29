@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -36,5 +37,13 @@ class UserController extends Controller
         ]);
 
         return redirect('/users')->with('message', 'User Updated Successfully!!');
+    }
+
+    public function delete(User $user)
+    {
+        Listing::whereUserId($user->id)->delete();
+        $user->delete();
+
+        return redirect("/users");
     }
 }

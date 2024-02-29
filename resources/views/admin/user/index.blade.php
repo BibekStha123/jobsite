@@ -42,6 +42,9 @@
                                                     <th class="sorting" tabindex="0" aria-controls="example2"
                                                         rowspan="1" colspan="1">
                                                         Listing Count</th>
+                                                    <th>
+                                                        Actions
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -54,6 +57,16 @@
                                                         </a>
                                                         <td>{{ $user->email }}</td>
                                                         <td>{{ empty($user->listings) ? 0 : count($user->listings) }}
+                                                        </td>
+                                                        <td>
+                                                            <a href="/users/{{ $user->id }}/edit"><i
+                                                                    class="fa fa-edit"></i></a>&nbsp;
+                                                            <form method="post" action="/user/{{ $user->id }}/delete">
+                                                                @csrf
+                                                                <button type="submit">
+                                                                    <i class="fa fa-trash" style="color: red"></i>
+                                                                </button>
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
